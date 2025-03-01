@@ -1,8 +1,8 @@
 
-import org.example.BrowserSetup;
-import org.example.LumaHomePage;
-import org.example.LumaSignInPage;
-import org.example.LumaSingUpPage;
+import org.example.Browser.BrowserSetup;
+import org.example.Pages.LumaHomePage;
+import org.example.Pages.LumaSignInPage;
+import org.example.Pages.LumaSingUpPage;
 import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.WebDriver;
