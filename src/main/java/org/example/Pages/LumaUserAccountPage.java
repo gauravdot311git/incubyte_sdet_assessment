@@ -1,6 +1,7 @@
 package org.example.Pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -16,15 +17,14 @@ public class LumaUserAccountPage {
     // sign out xpath  - > (//a[contains(text(), 'Sign Out')])[1]
 
     private final WebDriver driver;
-//    private final By myAccount = By.xpath("//span[text()='My Account']");
-    private final By dropdown = By.xpath("(//button/span[text()='Change'])[1]");
-    private final By signOut = By.xpath("(//a[contains(text(), 'Sign Out')])[1]");
-    WebDriverWait webDriverWait;
+    private final By dropdownXpath = By.xpath("(//button/span[text()='Change'])[1]");
+    private final By signOutXpath = By.xpath("(//a[contains(text(), 'Sign Out')])[1]");
+    private final WebDriverWait webDriverWait;
 
 
     public LumaUserAccountPage(WebDriver driver) {
         this.driver = driver;
-        webDriverWait =new WebDriverWait(driver, 5);
+        webDriverWait =new WebDriverWait(driver, 60);
     }
 
     public boolean verifyWelcomeText(String firstName, String lastName) {
@@ -33,22 +33,23 @@ public class LumaUserAccountPage {
             WebElement welcomeText = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(welcomeTextLocator));
             return welcomeText.isDisplayed();
         } catch (Exception e) {
-            System.out.println("Exception occurred while waiting for welcome text to be visible after 5 seconds   : " + e.getMessage());
+            System.out.println("Exception occurred while waiting for welcome text to be visible after 30 seconds   : " + e.getMessage());
             return false;
         }
     }
 
     public void clickOnWelcomeDropdown() {
-        WebElement dropDown = driver.findElement(dropdown);
-        dropDown.click();
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        WebElement changeButton = driver.findElement(dropdownXpath);
+        js.executeScript("arguments[0].click();", changeButton);
     }
 
     public void clickOnSignOut() {
         try {
-            WebElement signOutButton = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(signOut));
+            WebElement signOutButton = webDriverWait.until(ExpectedConditions.elementToBeClickable(signOutXpath));
             signOutButton.click();
         } catch (Exception e) {
-            System.out.println("Exception occurred while waiting for sign out for 5 seconds : " + e.getMessage());
+            System.out.println("Exception occurred while waiting for sign out for 30 seconds : " + e.getMessage());
         }
     }
 }

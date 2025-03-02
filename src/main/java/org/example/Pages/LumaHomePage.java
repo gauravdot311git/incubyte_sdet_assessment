@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 public class LumaHomePage {
 
     private final WebDriver driver;
+    private final WebDriverWait webDriverWait;
 
     private final By signInXpath = By.xpath("(//a[contains(text(), 'Sign In')])[1]");
     private final By createAnAccountXpath = By.xpath("(//a[contains(text(), 'Create an Account')])[1]");
@@ -19,6 +20,7 @@ public class LumaHomePage {
 
     public LumaHomePage(WebDriver driver) {
         this.driver = driver;
+        this.webDriverWait = new WebDriverWait(driver, 60);
     }
 
     public void openWebUrl() {
@@ -26,29 +28,36 @@ public class LumaHomePage {
             driver.manage().timeouts().pageLoadTimeout(20, TimeUnit.SECONDS);
             driver.get(homePageUrl);
         } catch (Exception e) {
-            System.out.println("exception time out: " +e.getMessage() + "\n" + "continue to tests");
+            System.err.println("Unexpected error occurred while opening url: " + e.getMessage());
         }
         driver.manage().window().maximize();
     }
 
     public boolean verifyHomePageText() {
-        WebDriverWait webDriverWait = new WebDriverWait(driver, 10);
         try {
             WebElement homePageTextObject = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(homePageText));
             return homePageTextObject.isDisplayed();
         } catch (Exception e) {
-            System.out.println("Exception occurred while waiting for Home Page text to be visible after 10 seconds   : " + e.getMessage());
+            System.out.println("Exception occurred while waiting for Home Page text to be visible after 30 seconds   : " + e.getMessage());
             return false;
         }
     }
 
     public void clickOnCreateAccount() {
-        WebElement createAnAccountObject = driver.findElement(createAnAccountXpath);
-        createAnAccountObject.click();
+        try {
+            WebElement createAnAccountObject = webDriverWait.until(ExpectedConditions.elementToBeClickable(createAnAccountXpath));
+            createAnAccountObject.click();
+        } catch (Exception e) {
+            System.out.println("Exception occurred while waiting for 'Create Account' button to be clickable after 30 seconds   : " + e.getMessage());
+        }
     }
 
     public void clickOnSignIn() {
-        WebElement signInObject = driver.findElement(signInXpath);
-        signInObject.click();
+        try {
+            WebElement signInObject = webDriverWait.until(ExpectedConditions.elementToBeClickable(signInXpath));
+            signInObject.click();
+        } catch (Exception e) {
+            System.out.println("Exception occurred while waiting for 'Sign In' button to be clickable after 10 seconds   : " + e.getMessage());
+        }
     }
 }

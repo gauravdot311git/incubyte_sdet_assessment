@@ -24,26 +24,31 @@ public class LumaSingUpPage {
 
     public void setFirstName(String firstNameString) {
         WebElement firstnameEdit = driver.findElement(firstName);
+        firstnameEdit.clear();
         firstnameEdit.sendKeys(firstNameString);
     }
 
     public void setLastName(String lastNameString) {
         WebElement lastnameEdit = driver.findElement(lastName);
+        lastnameEdit.clear();
         lastnameEdit.sendKeys(lastNameString);
     }
 
     public void setEmail(String emailString) {
         WebElement emailEdit = driver.findElement(email);
+        emailEdit.clear();
         emailEdit.sendKeys(emailString);
     }
 
     public void setPassword(String passwordString) {
         passwordEdit = driver.findElement(password);
+        passwordEdit.clear();
         passwordEdit.sendKeys(passwordString);
     }
 
     public void setConfirmationPassword(String passwordString) {
         confirmationPasswordEdit = driver.findElement(confirmPassword);
+        confirmationPasswordEdit.clear();
         confirmationPasswordEdit.sendKeys(passwordString);
     }
 

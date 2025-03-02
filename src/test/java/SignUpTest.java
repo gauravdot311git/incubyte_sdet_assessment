@@ -14,7 +14,7 @@ public class SignUpTest {
     String password = "Abc@1234";
 
     @BeforeAll
-    void setup() {
+    void setupPage() {
         driver = BrowserSetup.getDriver();
         lumaHomePage = new LumaHomePage(driver);
         lumaSingUpPage = new LumaSingUpPage(driver);
@@ -22,24 +22,24 @@ public class SignUpTest {
     }
 
     @Test
-    @DisplayName("Test User SingUpPage")
+    @DisplayName("Given I am on the signup page, When I enter valid details, Then I should be registered successfully")
     void testUserSingUpPage() {
         lumaHomePage.openWebUrl();
         Assertions.assertTrue(lumaHomePage.verifyHomePageText(), "having problem in opening home page");
         lumaHomePage.clickOnCreateAccount();
         String currentUrl = driver.getCurrentUrl();
         Assertions.assertTrue(currentUrl.contains("https://magento.softwaretestingboard.com/customer/account/create/"), "Having problem in opening sign up page");
-        lumaSingUpPage.setFirstName("firstName");
-        lumaSingUpPage.setLastName("lastName");
-        lumaSingUpPage.setEmail("first.last@gmail.com");
+        lumaSingUpPage.setFirstName("Gaurav");
+        lumaSingUpPage.setLastName("Kumar");
+        lumaSingUpPage.setEmail("gaurav.kumar@gmail.com");
         lumaSingUpPage.setPassword(password);
         lumaSingUpPage.setConfirmationPassword(password);
         lumaSingUpPage.clickOnCreateAccount();
-        Assertions.assertTrue(lumaUserAccountPage.verifyWelcomeText("firstName", "lastName"));
+        Assertions.assertTrue(lumaUserAccountPage.verifyWelcomeText("Gaurav", "Kumar"), "Failed to create account, please check email and password again");
     }
 
     @AfterAll
     void tearDown() {
-        driver.quit();
+        BrowserSetup.quitDriver();
     }
 }
